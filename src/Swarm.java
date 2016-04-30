@@ -1,10 +1,10 @@
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by lauren on 29/04/2016.
  */
 class Swarm extends ArrayList<Agent> {
+    List<Strategy> strategies = new ArrayList<Strategy>();
     int target_population = 0;
     long time_grain = 10;
     double cohesion = 0.0;

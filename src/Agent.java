@@ -1,3 +1,5 @@
+import com.sun.tools.javah.Mangle;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -5,6 +7,9 @@ import java.util.ArrayList;
  * Created by lauren on 28/04/2016.
  */
 class Agent {
+    // (Radians) A turn has to be greater than this angle for the agent to move
+    final static double turn_threshold_angle = 0.1;
+
     double view_distance_sq = 22500.0;
     double view_distance = 150.0;
     double alignment = 0.0;
@@ -71,45 +76,36 @@ class Agent {
         this.centre_of_mass = centreOfMass();
         this.centre_of_mass_angle = angleToCentreOfMass();
 
-        double cohesion_delta   = wrapAngle(this.angle - this.centre_of_mass_angle);
-        double separation_delta = wrapAngle(this.angle - this.centre_of_mass_angle + Math.PI);
-        double alignment_delta  = wrapAngle(this.angle - averageAngle());
+        double cohesion_delta   = Util.wrapAngle(this.angle - this.centre_of_mass_angle);
+        double separation_delta = Util.wrapAngle(this.angle - this.centre_of_mass_angle + Math.PI);
+        double alignment_delta  = Util.wrapAngle(this.angle - averageAngle());
 
-        double adjustment = cohesion_delta;// + separation_delta + alignment_delta;
+        double adjustment = cohesion_delta*this.cohesion + separation_delta*this.separation + alignment_delta*this.alignment;
 
-//        double adjustment = this.angle - this.centre_of_mass_angle;
+        adjustment = Util.wrapAngle(adjustment);
 
-        if (adjustment < Math.PI) {
-            // Turn left
-            this.angular_velocity = Math.max(-0.004, this.angular_velocity - this.angular_acceleration * t);
-        }
-        else if (adjustment > Math.PI) {
-            // Turn right
-            this.angular_velocity = Math.min(0.004, this.angular_velocity + this.angular_acceleration * t);
-        }
-        else {
+        // If the desired angle is very close to the current one, don't bother turning more
+        if (Math.abs(adjustment) < Agent.turn_threshold_angle) {
             if (this.angular_velocity > 0)
                 this.angular_velocity = Math.max(0, this.angular_velocity - this.angular_acceleration * t);
             else if (this.angular_velocity < 0)
                 this.angular_velocity = Math.min(0, this.angular_velocity + this.angular_acceleration * t);
         }
+        else
+        // If it's bigger than the threshhold, turn left
+        if (adjustment > 0) {
+            this.angular_velocity = Math.max(-0.004, this.angular_velocity - this.angular_acceleration * t);
+        }
+        // If it's less, turn right
+        else {
+            this.angular_velocity = Math.min(0.004, this.angular_velocity + this.angular_acceleration * t);
+        }
 
         this.angle += this.angular_velocity * t;
 
-        this.angle = wrapAngle(this.angle);
+        this.angle = Util.wrapAngle(this.angle);
 
         this.position.x += Math.cos(this.angle) * this.velocity * t;
         this.position.y += Math.sin(this.angle) * this.velocity * t;
-    }
-
-    static double wrapAngle(double theta) {
-        // First wrap the angle
-        theta = theta % (Math.PI * 2);
-        // Then normalise angles below zero
-        if (theta < 0) {
-            return (Math.PI * 2) + theta;
-        }
-        // If it gets here it's just a normal angle, return it
-        return theta;
     }
 }

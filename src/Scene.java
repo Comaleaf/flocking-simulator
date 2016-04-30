@@ -8,6 +8,8 @@ import javax.swing.JComponent;
 class Scene extends JComponent {
     Swarm swarm;
 
+    double zoom = 1.0;
+
     boolean draw_centre_of_mass = false;
     boolean draw_neighbours = false;
     boolean draw_view_distance = false;
@@ -32,14 +34,16 @@ class Scene extends JComponent {
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, getWidth(), getHeight());
 
+        g.translate((getWidth()/2.0)-(getWidth()*zoom/2.0), (getHeight()/2.0)-(getHeight()*zoom/2.0));
+
         for (Agent agent : swarm) {
             // Draw Agent
             Point p = agent.position;
             double y, x;
-            y = Math.sin(agent.angle) * 15.0;
-            x = Math.cos(agent.angle) * 15.0;
+            y = Math.sin(agent.angle) * 15.0 * this.zoom;
+            x = Math.cos(agent.angle) * 15.0 * this.zoom;
             g.setColor(Color.black);
-            g.draw(new Line2D.Double(p.getX(), p.getY(), p.getX()+x, p.getY()+y));
+            g.draw(new Line2D.Double(this.zoom * p.getX(), this.zoom * p.getY(), this.zoom * (p.getX()+x), this.zoom * (p.getY()+y)));
 
             // Draw related stuff for agent, if enabled
             g.setColor(Color.orange);

@@ -13,6 +13,7 @@ public class Flocking {
     public static void main(String[] args) {
         Swarm swarm = new Swarm();
         swarm.repopulate(100);
+        swarm.strategies.add(new Cohesion());
 
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());

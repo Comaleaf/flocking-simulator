@@ -23,6 +23,12 @@ class SceneControls extends JPanel {
         addSlider("Separation", 0, 100, 50, e -> this.scene.swarm.separation = ((double)((JSlider)e.getSource()).getValue())/100.0);
         addSlider("Alignment", 0, 100, 50,  e -> this.scene.swarm.alignment  = ((double)((JSlider)e.getSource()).getValue())/100.0);
         addSlider("Time Grain", 1, 100, 10, e -> this.scene.swarm.time_grain = (long)((JSlider)e.getSource()).getValue());
+        addSlider("Zoom", 10, 100, 10, e -> this.scene.zoom = (((double)((JSlider)e.getSource()).getValue()))/100.0);
+
+        addLabel("Strategies");
+        for (Strategy s : scene.swarm.strategies) {
+            addSlider(s.label(), 0, 100, 50, e -> s.setFactor(((double)((JSlider)e.getSource()).getValue())/100.0));
+        }
     }
 
     private void addCheckBox(String label, ItemListener listener) {
@@ -31,8 +37,12 @@ class SceneControls extends JPanel {
         add(checkbox);
     }
 
-    private void addSlider(String label, int min, int max, int value, ChangeListener listener) {
+    private void addLabel(String label) {
         add(new JLabel(label));
+    }
+
+    private void addSlider(String label, int min, int max, int value, ChangeListener listener) {
+        addLabel(label);
         JSlider slider = new JSlider(min, max, value);
         slider.addChangeListener(listener);
         add (slider);

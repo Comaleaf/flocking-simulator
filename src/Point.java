@@ -9,13 +9,7 @@ public class Point extends Point2D.Double {
     }
 
     double angleTowards(Point2D p) {
-        double theta = (Math.atan2(p.getY() - this.y, p.getX() - this.x));
-
-        // atan2 ranges from -180 to 180 degrees - we want 0-360 degrees
-        if (theta < 0)
-            theta += Math.PI * 2;
-
-        return theta;
+        return (Math.atan2(p.getY() - this.y, p.getX() - this.x));
     }
 
     void add(Point2D p) {
