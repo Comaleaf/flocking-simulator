@@ -4,7 +4,7 @@ import java.util.*;
  * Created by lauren on 29/04/2016.
  */
 class Swarm extends ArrayList<Agent> {
-    List<Strategy> strategies = new ArrayList<Strategy>();
+    List<Behaviour> behaviours = new ArrayList<Behaviour>();
     int target_population = 0;
     long time_grain = 10;
     double cohesion = 0.0;

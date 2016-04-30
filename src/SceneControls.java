@@ -19,14 +19,14 @@ class SceneControls extends JPanel {
         addCheckBox("Show view distance",  e -> this.scene.draw_view_distance  = e.getStateChange() == ItemEvent.SELECTED);
 
         addSlider("Number of Agents", 1, 3000, 100, e -> this.scene.swarm.target_population = ((JSlider)e.getSource()).getValue());
-        addSlider("Cohesion", 0, 100, 50,   e -> this.scene.swarm.cohesion   = ((double)((JSlider)e.getSource()).getValue())/100.0);
-        addSlider("Separation", 0, 100, 50, e -> this.scene.swarm.separation = ((double)((JSlider)e.getSource()).getValue())/100.0);
-        addSlider("Alignment", 0, 100, 50,  e -> this.scene.swarm.alignment  = ((double)((JSlider)e.getSource()).getValue())/100.0);
+        addSlider("Cohesion", 0, 100, 0,   e -> this.scene.swarm.cohesion   = ((double)((JSlider)e.getSource()).getValue())/100.0);
+        addSlider("Separation", 0, 100, 0, e -> this.scene.swarm.separation = ((double)((JSlider)e.getSource()).getValue())/100.0);
+        addSlider("Alignment", 0, 100, 0,  e -> this.scene.swarm.alignment  = ((double)((JSlider)e.getSource()).getValue())/100.0);
         addSlider("Time Grain", 1, 100, 10, e -> this.scene.swarm.time_grain = (long)((JSlider)e.getSource()).getValue());
         addSlider("Zoom", 10, 100, 10, e -> this.scene.zoom = (((double)((JSlider)e.getSource()).getValue()))/100.0);
 
-        addLabel("Strategies");
-        for (Strategy s : scene.swarm.strategies) {
+        addLabel("Behaviours");
+        for (Behaviour s : scene.swarm.behaviours) {
             addSlider(s.label(), 0, 100, 50, e -> s.setFactor(((double)((JSlider)e.getSource()).getValue())/100.0));
         }
     }
@@ -34,6 +34,7 @@ class SceneControls extends JPanel {
     private void addCheckBox(String label, ItemListener listener) {
         JCheckBox checkbox = new JCheckBox(label);
         checkbox.addItemListener(listener);
+        checkbox.setSelected(false);
         add(checkbox);
     }
 
@@ -45,6 +46,7 @@ class SceneControls extends JPanel {
         addLabel(label);
         JSlider slider = new JSlider(min, max, value);
         slider.addChangeListener(listener);
-        add (slider);
+        slider.setValue(value);
+        add(slider);
     }
 }

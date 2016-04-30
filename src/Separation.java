@@ -1,20 +1,18 @@
 /**
- * Created by lauren on 29/04/2016.
+ * Created by lauren on 30/04/2016.
  */
-class Cohesion implements Behaviour {
-
+public class Separation implements Behaviour {
     private double factor = 0.0;
 
     public String label () {
-        return "Cohesion";
+        return "Separation";
     }
 
     public double targetAngle(Agent a) {
-        return a.angleToCentreOfMass();
+        return a.angleToCentreOfMass() + Math.PI;
     }
 
     public void setFactor(double factor) {
         this.factor = factor;
     }
-
 }

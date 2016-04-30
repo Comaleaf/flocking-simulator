@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by lauren on 12/03/2016.
@@ -13,7 +11,9 @@ public class Flocking {
     public static void main(String[] args) {
         Swarm swarm = new Swarm();
         swarm.repopulate(100);
-        swarm.strategies.add(new Cohesion());
+        swarm.behaviours.add(new Cohesion());
+        swarm.behaviours.add(new Separation());
+        swarm.behaviours.add(new Alignment());
 
         JFrame frame = new JFrame();
         frame.setLayout(new FlowLayout());
