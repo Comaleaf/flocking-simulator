@@ -1,7 +1,9 @@
+package flocking;
+
 import java.awt.geom.Point2D;
 
 /**
- * Created by lauren on 28/04/2016.
+ * Created by Y3761870 on 28/04/2016.
  */
 public class Point extends Point2D.Double {
     Point(double x, double y) {

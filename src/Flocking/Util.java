@@ -1,10 +1,12 @@
+package flocking;
+
 /**
- * Created by lauren on 30/04/2016.
+ * Created by Y3761870 on 30/04/2016.
  */
-class Util {
+public class Util {
     final static double TWO_PI = Math.PI*2;
 
-    final static double wrapAngle(double angle) {
+    final static public double wrapAngle(double angle) {
         return angle - (TWO_PI * Math.floor((angle + Math.PI) / TWO_PI));
     }
 }

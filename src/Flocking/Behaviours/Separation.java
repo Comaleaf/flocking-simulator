@@ -1,15 +1,19 @@
+package flocking.behaviours;
+
+import flocking.*;
+
 /**
- * Created by lauren on 30/04/2016.
+ * Created by Y3761870 on 30/04/2016.
  */
 public class Separation implements Behaviour {
     private double factor = 0.0;
 
-    public String label () {
+    public String toString() {
         return "Separation";
     }
 
     public double targetAngle(Agent a) {
-        return a.angleToCentreOfMass() + Math.PI;
+        return Util.wrapAngle(a.angle - a.centre_of_mass_angle + Math.PI) * this.factor;
     }
 
     public void setFactor(double factor) {

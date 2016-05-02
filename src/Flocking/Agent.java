@@ -1,29 +1,30 @@
-import com.sun.tools.javah.Mangle;
+package flocking;
+
+import flocking.behaviours.Behaviour;
 
 import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Created by lauren on 28/04/2016.
+ * Created by Y3761870 on 28/04/2016.
  */
-class Agent {
+public class Agent {
     // (Radians) A turn has to be greater than this angle for the agent to move
     final static double turn_threshold_angle = 0.1;
 
-    double view_distance_sq = 22500.0;
-    double view_distance = 150.0;
-    double alignment = 0.0;
-    double separation = 0.0;
-    double cohesion = 0.0;
+    // Storing the square of the view distance means visibility testing doesn't need to do a sqrt operation
+    private double view_distance_sq = 22500.0;
+    private double view_distance = 150.0;
 
     List<Agent> neighbours;
+    List<Behaviour> behaviours;
     Point position;
-    double angle = 0.0;
+    public double angle = 0.0;
     double velocity = 0.12;
     double angular_velocity = 0.0;
 
-    double centre_of_mass_angle = 0.0;
-    Point centre_of_mass = null;
+    public double centre_of_mass_angle = 0.0;
+    public Point centre_of_mass = null;
 
     double angular_acceleration = 0.00005;
 
@@ -33,11 +34,20 @@ class Agent {
         this.angle = angle;
     }
 
+    double getViewDistance() {
+        return this.view_distance;
+    }
+
+    void setViewDistance(double view_distance) {
+        this.view_distance = view_distance;
+        this.view_distance_sq = view_distance * view_distance;
+    }
+
     boolean canSee(Agent a) {
         return (this.position.distanceSq(a.position) <= this.view_distance_sq);
     }
 
-    Point centreOfMass() {
+    private Point centreOfMass() {
         if (neighbours.size() == 0)
             return null;
 
@@ -51,7 +61,7 @@ class Agent {
         return centre_of_mass;
     }
 
-    double averageAngle() {
+    public double averageAngle() {
         if (neighbours.size() == 0)
             return this.angle;
 
@@ -64,7 +74,7 @@ class Agent {
         return total / neighbours.size();
     }
 
-    double angleToCentreOfMass() {
+    private double angleToCentreOfMass() {
         if (this.centre_of_mass == null)
             return this.angle;
 
@@ -72,15 +82,15 @@ class Agent {
             return this.position.angleTowards(this.centre_of_mass);
     }
 
-    void update(long t) {
+    public void update(long t) {
         this.centre_of_mass = centreOfMass();
         this.centre_of_mass_angle = angleToCentreOfMass();
 
-        double cohesion_delta   = Util.wrapAngle(this.angle - this.centre_of_mass_angle);
-        double separation_delta = Util.wrapAngle(this.angle - this.centre_of_mass_angle + Math.PI);
-        double alignment_delta  = Util.wrapAngle(this.angle - averageAngle());
+        double adjustment = 0.0;
 
-        double adjustment = cohesion_delta*this.cohesion + separation_delta*this.separation + alignment_delta*this.alignment;
+        for (Behaviour b : this.behaviours) {
+            adjustment += b.targetAngle(this);
+        }
 
         adjustment = Util.wrapAngle(adjustment);
 
@@ -101,10 +111,8 @@ class Agent {
             this.angular_velocity = Math.min(0.004, this.angular_velocity + this.angular_acceleration * t);
         }
 
-        this.angle += this.angular_velocity * t;
-
-        this.angle = Util.wrapAngle(this.angle);
-
+        // Update position vector and angle
+        this.angle = Util.wrapAngle(this.angle + this.angular_velocity * t);
         this.position.x += Math.cos(this.angle) * this.velocity * t;
         this.position.y += Math.sin(this.angle) * this.velocity * t;
     }
