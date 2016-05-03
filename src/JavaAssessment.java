@@ -27,6 +27,8 @@ public class JavaAssessment {
         swarm.behaviours.add(new Cohesion());
         swarm.behaviours.add(new Separation());
         swarm.behaviours.add(new Alignment());
+        swarm.behaviours.add(new Randomness());
+        swarm.behaviours.add(new MouseLove(frame));
 
         // The scene renders the agents to view
         // The scene UI is where all the parameters are adjusted - it then adjusts the scene object directly
@@ -53,15 +55,10 @@ public class JavaAssessment {
             }
         });
 
-        final long last_time = 0;
-
         // We want the simulation and the user view redraw to happen on separate threads. It might be worth
         // looking into SwingWorker to prevent the GUI from locking.
-        Timer simulation = new Timer(1000/framerate, e -> {
-            System.out.println(System.nanoTime() - last_time);
-            last_time = System.nanoTime();
-            swarm.update(swarm.time_grain);
-        });
+        long framerate_ns = 1000000000/framerate; // Nano-seconds
+        Timer simulation = new Timer(1000/framerate, e -> swarm.update(framerate_ns));
         simulation.start();
 
         Timer redraw = new Timer(1000/framerate, e -> scene.repaint());

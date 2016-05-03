@@ -44,6 +44,8 @@ public class Scene extends JComponent {
         g.translate((getWidth()/2.0)-(getWidth()*zoom/2.0), (getHeight()/2.0)-(getHeight()*zoom/2.0));
         g.scale(this.zoom, this.zoom);
 
+        Ellipse2D.Double view_distance = new Ellipse2D.Double(0.0, 0.0, swarm.getViewDistance()*2, swarm.getViewDistance()*2);
+
         for (Agent agent : swarm) {
             // Skip agents that aren't in the visible region
             if (!g.getClipBounds().contains(agent.position))
@@ -56,7 +58,6 @@ public class Scene extends JComponent {
             x = Math.cos(agent.angle) * 4.0 * this.zoom;
             g.setColor(Color.black);
 
-            //g.drawLine((int) (p.x-x), (int)(p.y-y), (int)(p.x+x), (int)(p.y+y));
             g.draw(new Line2D.Double(p.x-x, p.y-y, p.x+x, p.y+y));
 
             // Drawing ovals seems to be really slow - I don't know why this is exactly. Turning off
@@ -67,8 +68,9 @@ public class Scene extends JComponent {
             // Draw related stuff for agent, if enabled
             if (this.draw_view_distance) {
                 g.setColor(Color.orange);
-                int view_distance = (int)agent.getViewDistance();
-                g.drawOval((int) p.getX() - view_distance/2, (int) p.getY() - (int) view_distance/2, view_distance, view_distance);
+                view_distance.x = p.x - swarm.getViewDistance();
+                view_distance.y = p.y - swarm.getViewDistance();
+                g.draw(view_distance);
             }
 
             if (this.draw_centre_of_mass && agent.centre_of_mass != null) {

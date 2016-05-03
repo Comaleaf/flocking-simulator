@@ -26,8 +26,11 @@ public class SceneUI extends JPanel {
         addSlider("# Agents", 1,  4000, 100, e -> this.scene.swarm.target_population = monitorSliderValue(e.getSource()) );
         addSlider("Speed",    1,  100,  10,  e -> this.scene.swarm.time_grain = (long)((JSlider)e.getSource()).getValue() );
         addSlider("Zoom",     10, 100,  10,  e -> this.scene.zoom = ((double)((JSlider)e.getSource()).getValue()/100.0) );
+        addCheckBox("Wrap off-screen agents", e -> this.scene.draw_centre_of_mass = e.getStateChange() == ItemEvent.SELECTED);
 
         addTitle("Agent Parameters");
+        addSlider("Sight",    1,  1000, 150, e -> this.scene.swarm.setViewDistance(monitorSliderValue(e.getSource())) );
+        addSlider("Speed", 1,  100,  12, e -> this.scene.swarm.setAllVelocity(monitorSliderValue(e.getSource()) / 100.0) );
 
         addTitle("Drawing Options");
         addCheckBox("Show centre of mass", e -> this.scene.draw_centre_of_mass = e.getStateChange() == ItemEvent.SELECTED);
@@ -36,7 +39,7 @@ public class SceneUI extends JPanel {
 
         addTitle("Behaviours");
         for (Behaviour b : scene.swarm.behaviours) {
-            addSlider(b.toString(), 0, 100, 50, e -> b.setFactor(((double)((JSlider)e.getSource()).getValue())/100.0));
+            addSlider(b.toString(), 0, 100, 0, e -> b.setFactor(((double)((JSlider)e.getSource()).getValue())/100.0));
         }
     }
 

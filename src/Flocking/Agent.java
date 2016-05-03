@@ -18,9 +18,9 @@ public class Agent {
 
     List<Agent> neighbours;
     List<Behaviour> behaviours;
-    Point position;
+    public Point position;
     public double angle = 0.0;
-    double velocity = 0.12;
+    double velocity = 0.0;
     double angular_velocity = 0.0;
 
     public double centre_of_mass_angle = 0.0;
