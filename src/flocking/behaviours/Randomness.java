@@ -4,21 +4,20 @@ import flocking.*;
 import java.util.Random;
 
 /**
- * Created by Y3761870 on 30/04/2016.
+ * Randomness just turns the agent by a random amount
+ * @author Y3761870
  */
-public class Randomness implements Behaviour {
-    private double factor = 0.0;
+public class Randomness extends ScaledBehaviour {
     private Random rng = new Random();
 
     public String toString(){
+        // Use a smaller string than 'Randomness' else it won't fit on the panel
         return "Random";
     }
 
-    public double targetAngle(Agent a) {
-        return Util.wrapAngle(a.angle - (rng.nextDouble() * Util.TWO_PI)) * this.factor;
-    }
-
-    public void setFactor(double factor) {
-        this.factor = factor;
+    @Override
+    protected double unscaledAngle(Agent a) {
+        // Get a random double between 0-1 and scale it by TWO_PI (360 degrees)
+        return a.angle - (rng.nextDouble() * Util.TWO_PI);
     }
 }

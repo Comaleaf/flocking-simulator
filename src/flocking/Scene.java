@@ -26,6 +26,16 @@ public class Scene extends JComponent {
         this.revalidate();
     }
 
+    public Rectangle2D getScaledVisibleRegion() {
+        Rectangle2D.Double bounds = new Rectangle2D.Double();
+        bounds.setRect(
+                ((getWidth()/2.0)-(getWidth()*zoom/2.0)) * -1/zoom,
+                ((getHeight()/2.0)-(getHeight()*zoom/2.0)) * -1/zoom,
+                this.getWidth() * 1/zoom,
+                this.getHeight() * 1/zoom);
+        return bounds;
+    }
+
     protected void paintComponent(Graphics g_) {
         super.paintComponent(g_);
         // Use Graphics2D instead of Graphics - the Graphics interface does not support rendering hints/etc.

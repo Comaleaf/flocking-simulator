@@ -24,14 +24,14 @@ public class SceneUI extends JPanel {
 
         addTitle("Simulation");
         addSlider("# Agents", 1,  4000, 100, e -> this.scene.swarm.target_population = monitorSliderValue(e.getSource()) );
-        addSlider("Speed",    0,  200,  100,  e ->
+        addSlider("Speed",    0,  200,  (int)Math.round(Math.log10(this.scene.swarm.time_grain) * 100.0),  e ->
                 this.scene.swarm.time_grain = Math.round(Math.pow(10, ((double)((JSlider)e.getSource()).getValue())/100.0)));
-        addSlider("Zoom",     10, 100,  100,  e -> this.scene.zoom = this.scene.swarm.zoom = ((double)((JSlider)e.getSource()).getValue()/100.0) );
+        addSlider("Zoom",     10, 100,  (int)Math.round(this.scene.zoom * 100.0),  e -> this.scene.zoom = ((double)((JSlider)e.getSource()).getValue()/100.0) );
         addCheckBox("Wrap off-screen agents", e -> this.scene.swarm.wrap_offscreen = e.getStateChange() == ItemEvent.SELECTED);
 
         addTitle("Agent Parameters");
-        addSlider("Sight",    1,  1000, 150, e -> this.scene.swarm.setViewDistance(monitorSliderValue(e.getSource())) );
-        addSlider("Velocity", 1,  100,  12, e -> this.scene.swarm.setAllVelocity(monitorSliderValue(e.getSource()) / 100.0) );
+        addSlider("Sight",    1,  1000, (int) this.scene.swarm.getViewDistance(), e -> this.scene.swarm.setViewDistance(monitorSliderValue(e.getSource())) );
+        addSlider("Velocity", 1,  100,  (int) (this.scene.swarm.getVelocity() * 100.0), e -> this.scene.swarm.setAllVelocity(monitorSliderValue(e.getSource()) / 100.0) );
 
         addTitle("Drawing Options");
         addCheckBox("Show centre of mass", e -> this.scene.draw_centre_of_mass = e.getStateChange() == ItemEvent.SELECTED);

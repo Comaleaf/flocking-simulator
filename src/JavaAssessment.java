@@ -22,8 +22,8 @@ public class JavaAssessment {
         frame.setVisible(true);
 
         // Swarm must be specified with the bounds of the area where agents can be spawned
-        Swarm swarm = new Swarm(frame.getSize());
-        swarm.repopulate(100); // Sets the number of agents to a default
+        Swarm swarm = new Swarm();
+        swarm.target_population = 100;
         swarm.behaviours.add(new Cohesion());
         swarm.behaviours.add(new Separation());
         swarm.behaviours.add(new Alignment());
@@ -32,8 +32,7 @@ public class JavaAssessment {
 
         // The scene renders the agents to view
         // The scene UI is where all the parameters are adjusted - it then adjusts the scene object directly
-        Scene scene = new Scene(swarm);
-        SceneUI ui = new SceneUI(scene);
+        SceneUI ui = new SceneUI(swarm.scene);
 
         // Overlap the scene and UI on top of eachother. The UI will be translucent so that the agents can
         // still be seen in the background
@@ -46,23 +45,13 @@ public class JavaAssessment {
                         .addComponent(ui)
                         .addComponent(swarm.scene));
 
-        // Need to update where agents can spawn when the window resizes. This is being fully specified unlike
-        // elsewhere as ComponentListeners have multiple methods and therefore still don't support lambda expressions
-        // in Java 8. (Come on Oracle, fix this..)
-        frame.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                swarm.spawn_bounds = frame.getSize();
-                swarm.spawn_bounds.setSize(swarm.spawn_bounds.width * 1/scene.zoom, swarm.spawn_bounds.height * 1/scene.zoom);
-            }
-        });
-
         // We want the simulation and the user view redraw to happen on separate threads. It might be worth
         // looking into SwingWorker to prevent the GUI from locking.
         long framerate_ns = 1000000000/framerate; // Nano-seconds
         Timer simulation = new Timer(1000/framerate, e -> swarm.update(framerate_ns));
         simulation.start();
 
-        Timer redraw = new Timer(1000/framerate, e -> scene.repaint());
+        Timer redraw = new Timer(1000/framerate, e -> swarm.scene.repaint());
         redraw.start();
     }
 }

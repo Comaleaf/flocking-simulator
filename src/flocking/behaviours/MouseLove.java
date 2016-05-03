@@ -6,31 +6,29 @@ import java.awt.Component;
 import javax.swing.SwingUtilities;
 
 /**
- * Created by Y3761870 on 29/04/2016.
+ * MouseLove ("Go to Mouse") turns the agent towards the current mouse pointer location.
+ * @author Y3761870
  */
-public class MouseLove implements Behaviour {
-
-    private double factor = 0.0;
+public class MouseLove extends ScaledBehaviour {
     private Component origin;
 
     public MouseLove(Component origin) {
+        // Need to set an origin because MouseInfo locations are OS-wide not relative to the frame
         this.origin = origin;
     }
 
     public String toString() {
-        return "Mouse Love";
+        // Something mildly descriptive
+        return "Go to Mouse";
     }
 
-    public double targetAngle(Agent a) {
+    @Override
+    protected double unscaledAngle(Agent a) {
+        // Make sure to use awt's Point class and not the package's
         java.awt.Point p = MouseInfo.getPointerInfo().getLocation();
+        // Convert from OS-wide position to local position
         SwingUtilities.convertPointFromScreen(p, this.origin);
-        double angle = a.position.angleTowards(p);
-
-        return Util.wrapAngle(a.angle - angle) * this.factor;
+        // And give the angle from the agent relative to cursor position
+        return a.angle - a.position.angleTowards(p);
     }
-
-    public void setFactor(double factor) {
-        this.factor = factor;
-    }
-
 }

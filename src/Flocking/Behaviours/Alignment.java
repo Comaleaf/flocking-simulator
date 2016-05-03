@@ -7,7 +7,9 @@ import flocking.*;
  * @author Y3761870
  */
 public class Alignment extends ScaledBehaviour {
+    @Override
     protected double unscaledAngle(Agent a) {
-       return a.angle - a.averageAngle();
+        // Just take the average angle from the agent, relative to the agent's angle
+        return a.angle - a.averageAngle();
     }
 }

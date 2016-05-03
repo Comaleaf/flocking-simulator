@@ -3,7 +3,9 @@ package flocking.behaviours;
 import flocking.*;
 
 /**
- * Created by lauren on 03/05/2016.
+ * The ScaleBehaviour class implements the Behaviour interface whilst providing common functionality for
+ * behaviours to use scaling factors.
+ * @author Y3761870
  */
 public abstract class ScaledBehaviour implements Behaviour {
     private double factor = 0.0;
