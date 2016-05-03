@@ -31,7 +31,6 @@ public class Swarm extends ArrayList<Agent> {
     }
 
     void wrapAgentToBounds(Agent a, Rectangle2D bounds) {
-
         while (a.position.x < bounds.getMinX()) a.position.x += bounds.getWidth();
         while (a.position.y < bounds.getMinY()) a.position.y += bounds.getHeight();
         while (a.position.x > bounds.getMaxX()) a.position.x -= bounds.getWidth();

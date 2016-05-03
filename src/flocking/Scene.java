@@ -10,10 +10,13 @@ import java.util.*;
  * Created by Y3761870 on 28/04/2016.
  */
 public class Scene extends JComponent {
+    // The swarm that this scene will draw
     Swarm swarm;
 
+    // The zoom factor to draw at
     public double zoom = 1.0;
 
+    // Some drawing options
     boolean draw_centre_of_mass = false;
     boolean draw_neighbours     = false;
     boolean draw_view_distance  = false;
@@ -26,8 +29,14 @@ public class Scene extends JComponent {
         this.revalidate();
     }
 
+    /**
+     * Gives the bounds of the visible window the Scene will display, in terms of the simulation space. Takes
+     * into account the zoom factor.
+     * @return Rectangle2D containing offset and size of visible region
+     */
     public Rectangle2D getScaledVisibleRegion() {
         Rectangle2D.Double bounds = new Rectangle2D.Double();
+        // Essentially the 1/zooms are necessary
         bounds.setRect(
                 ((getWidth()/2.0)-(getWidth()*zoom/2.0)) * -1/zoom,
                 ((getHeight()/2.0)-(getHeight()*zoom/2.0)) * -1/zoom,

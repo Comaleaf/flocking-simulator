@@ -27,8 +27,12 @@ public abstract class ScaledBehaviour implements Behaviour {
         return Util.wrapAngle(this.unscaledAngle(a)) * this.factor;
     }
 
-    // Subclasses should override this to give the particular angle pre-scaling - the targetAngle method when
-    // invoked by the Agent will scale this automatically
+    /**
+     * Subclasses should override this to give the particular angle pre-scaling - the targetAngle method when
+     * invokved by the Agent will scale this automatically
+     * @param a Agent to apply the behaviour to
+     * @return Pre-scaled angle to turn towards
+     */
     protected double unscaledAngle(Agent a) {
         return 0.0;
     }
