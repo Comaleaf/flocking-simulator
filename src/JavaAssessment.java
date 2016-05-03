@@ -40,11 +40,11 @@ public class JavaAssessment {
         layout.setHorizontalGroup(
                 layout.createParallelGroup()
                         .addComponent(ui, 200, 200, 200) // Sets a fixed width for the UI
-                        .addComponent(scene));
+                        .addComponent(swarm.scene));
         layout.setVerticalGroup(
                 layout.createParallelGroup()
                         .addComponent(ui)
-                        .addComponent(scene));
+                        .addComponent(swarm.scene));
 
         // Need to update where agents can spawn when the window resizes. This is being fully specified unlike
         // elsewhere as ComponentListeners have multiple methods and therefore still don't support lambda expressions
@@ -52,6 +52,7 @@ public class JavaAssessment {
         frame.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
                 swarm.spawn_bounds = frame.getSize();
+                swarm.spawn_bounds.setSize(swarm.spawn_bounds.width * 1/scene.zoom, swarm.spawn_bounds.height * 1/scene.zoom);
             }
         });
 

@@ -3,10 +3,10 @@ package flocking.behaviours;
 import flocking.*;
 
 /**
- * Created by Y3761870 on 29/04/2016.
+ * Cohesion turns the agent towards the centre of gravity of adjacent visible agents.
+ * @author Y3761870
  */
 public class Cohesion implements Behaviour {
-
     private double factor = 0.0;
 
     public String toString() {

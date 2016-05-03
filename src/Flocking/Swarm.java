@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.*;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 /**
  * Created by Y3761870 on 29/04/2016.
@@ -16,6 +17,8 @@ public class Swarm extends ArrayList<Agent> {
     public long time_grain = 10;
     public long last_updated;
     public Dimension spawn_bounds;
+    public boolean wrap_offscreen = false;
+    public double zoom = 1.0;
 
     private double velocity = 0.12;
     private double view_distance = 150.0;
@@ -25,6 +28,16 @@ public class Swarm extends ArrayList<Agent> {
 
         this.last_updated = System.nanoTime();
         this.spawn_bounds = initial_spawn_bounds;
+    }
+
+    void wrapAgent(Agent a, Dimension bounds) {
+        double actualWidth = bounds.getWidth() * 1/this.zoom;
+        double actualHeight = bounds.getHeight() * 1/this.zoom;
+
+        while (a.position.x < 0.0) a.position.x += actualWidth;
+        while (a.position.y < 0.0) a.position.y += actualHeight;
+        while (a.position.x > actualWidth) a.position.x -= actualWidth;
+        while (a.position.y > actualHeight) a.position.y -= actualHeight;
     }
 
     public double getViewDistance() {
@@ -84,6 +97,8 @@ public class Swarm extends ArrayList<Agent> {
             public void accept(Agent agent) {
                 agent.neighbours = all_agents.stream().filter(a -> agent != a && agent.canSee(a)).collect(Collectors.toList());
                 agent.update(time_delta);
+                if (wrap_offscreen)
+                    wrapAgent(agent, spawn_bounds);
             }
         });
     }

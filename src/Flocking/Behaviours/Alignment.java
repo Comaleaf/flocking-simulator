@@ -3,20 +3,11 @@ package flocking.behaviours;
 import flocking.*;
 
 /**
- * Created by Y3761870 on 30/04/2016.
+ * Alignment behaviour class. Alignment turns towards the average angle of all adjacent agents.
+ * @author Y3761870
  */
-public class Alignment implements Behaviour {
-    private double factor = 0.0;
-
-    public String toString() {
-        return "Alignment";
-    }
-
-    public double targetAngle(Agent a) {
-        return Util.wrapAngle(a.angle - a.averageAngle()) * this.factor;
-    }
-
-    public void setFactor(double factor) {
-        this.factor = factor;
+public class Alignment extends ScaledBehaviour {
+    protected double unscaledAngle(Agent a) {
+       return a.angle - a.averageAngle();
     }
 }

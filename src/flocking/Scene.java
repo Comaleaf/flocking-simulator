@@ -12,7 +12,7 @@ import java.util.*;
 public class Scene extends JComponent {
     Swarm swarm;
 
-    double zoom = 1.0;
+    public double zoom = 1.0;
 
     boolean draw_centre_of_mass = false;
     boolean draw_neighbours     = false;
@@ -28,7 +28,7 @@ public class Scene extends JComponent {
 
     protected void paintComponent(Graphics g_) {
         super.paintComponent(g_);
-        // Use Graphics2D instead of Graphics - it's more flexible and it's needed to translate the view
+        // Use Graphics2D instead of Graphics - the Graphics interface does not support rendering hints/etc.
         Graphics2D g = (Graphics2D)g_;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
