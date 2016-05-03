@@ -22,7 +22,7 @@ public class Agent {
     private double view_distance = 150.0;
 
     // All the current neighbours (maintained by the swarm using the Agent.canSee method
-    Stream<Agent> neighbours;
+    List<Agent> neighbours;
     // List of the current behaviours that the agent uses to update its angle
     List<Behaviour> behaviours;
 
