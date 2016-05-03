@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Created by Y3761870 on 28/04/2016.
+ * An Agent (sometimes called a boid) each work separately as part of the simulation. They determine their own
+ * position and updates using a list of behaviours given to them. The `Swarm` class manages these so consult
+ * that for more information.
+ * @author Y3761870
  */
 public class Agent {
     // (Radians) A turn has to be greater than this angle for the agent to move
@@ -16,15 +19,19 @@ public class Agent {
     private double view_distance_sq = 22500.0;
     private double view_distance = 150.0;
 
+    // All the current neighbours (maintained by the swarm using the Agent.canSee method
     List<Agent> neighbours;
+    // List of the current behaviours that the agent uses to update its angle
     List<Behaviour> behaviours;
+
+    // Current position/state of the angle in cartesian space
     public Point position;
     public double angle = 0.0;
     double velocity = 0.0;
     double angular_velocity = 0.0;
 
     public double centre_of_mass_angle = 0.0;
-    public Point centre_of_mass = null;
+    Point centre_of_mass = null;
 
     double angular_acceleration = 0.00005;
 
@@ -43,11 +50,11 @@ public class Agent {
         this.view_distance_sq = view_distance * view_distance;
     }
 
-    boolean canSee(Agent a) {
+    boolean isWithinViewDistance(Agent a) {
         return (this.position.distanceSq(a.position) <= this.view_distance_sq);
     }
 
-    private Point centreOfMass() {
+    Point centreOfMass() {
         if (neighbours.size() == 0)
             return null;
 

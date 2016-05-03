@@ -17,7 +17,6 @@ public class Swarm extends ArrayList<Agent> {
     public long time_grain = 10;
     public long last_updated;
     public boolean wrap_offscreen = false;
-    public double zoom = 1.0;
 
     public Scene scene;
 
@@ -31,8 +30,7 @@ public class Swarm extends ArrayList<Agent> {
         this.last_updated = System.nanoTime();
     }
 
-    void wrapAgent(Agent a) {
-        Rectangle2D bounds = this.scene.getScaledVisibleRegion();
+    void wrapAgentToBounds(Agent a, Rectangle2D bounds) {
 
         while (a.position.x < bounds.getMinX()) a.position.x += bounds.getWidth();
         while (a.position.y < bounds.getMinY()) a.position.y += bounds.getHeight();
@@ -96,15 +94,17 @@ public class Swarm extends ArrayList<Agent> {
 
         List<Agent> all_agents = this;
 
+        final Rectangle2D bounds = this.scene.getScaledVisibleRegion();
+
         // Computational complexity of updating the neighbours list is O(n^2) - this is pretty huge. With a large
         // number of agents it will take a long time to traverse the graph, regardless of optimisations to the local
         // loop. Parallelising essentially halves the time to completion with two cores (profiled).
-        this.parallelStream().forEach(new Consumer<Agent>() {
+        parallelStream().forEach(new Consumer<Agent>() {
             public void accept(Agent agent) {
-                agent.neighbours = all_agents.stream().filter(a -> agent != a && agent.canSee(a)).collect(Collectors.toList());
+                agent.neighbours = all_agents.stream().filter(a -> agent != a && agent.isWithinViewDistance(a)).collect(Collectors.toList());
                 agent.update(time_delta);
                 if (wrap_offscreen)
-                    wrapAgent(agent);
+                    wrapAgentToBounds(agent, bounds);
             }
         });
     }

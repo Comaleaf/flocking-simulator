@@ -3,7 +3,8 @@ package flocking.behaviours;
 import flocking.*;
 
 /**
- * Created by Y3761870 on 30/04/2016.
+ * Separation turns away from the centre of mass of visible agents. The opposite of cohesion.
+ * @author Y3761870
  */
 public class Separation extends ScaledBehaviour {
     @Override
