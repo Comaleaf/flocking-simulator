@@ -8,7 +8,7 @@ import java.awt.event.*;
 import javax.swing.event.*;
 
 /**
- * Created by Y3761870 on 29/04/2016.
+ *
  */
 public class SceneUI extends JPanel {
     private Scene scene;

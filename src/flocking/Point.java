@@ -13,14 +13,6 @@ public class Point extends Point2D.Double {
     }
 
     /**
-     * Converts from an AWT Point to this Point class
-     * @param p AWT Point
-     */
-    public Point(java.awt.Point p) {
-        super(p.getX(), p.getY());
-    }
-
-    /**
      * Gives the angle from this point to a provided point
      * @param p Point to compare with
      * @return double Angle in radians from -180degrees to 180degrees
@@ -36,15 +28,6 @@ public class Point extends Point2D.Double {
     void add(Point2D p) {
         this.x += p.getX();
         this.y += p.getY();
-    }
-
-    /**
-     * Subtract the location of this point from the location of a provided point
-     * @param p Point to subtract from this point
-     */
-    void subtract(Point2D p) {
-        this.x -= p.getX();
-        this.y -= p.getY();
     }
 
     /**

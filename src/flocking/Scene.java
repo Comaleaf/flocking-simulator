@@ -3,12 +3,15 @@ package flocking;
 import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.JComponent;
-import java.util.List;
-import java.util.*;
 
 /**
- * Created by Y3761870 on 28/04/2016.
+ *
+ * @author Y3761870
  */
+// Suppress WeakerAccess warning for this class because IntelliJ thinks that it can make the class package-Local
+// however, actually doing so prevents the drawing lambda from being able to resolve the repaint() method of
+// the Component superclass. This is safe to suppress as it's an IDE style suggestion *NOT* a JVM warning
+@SuppressWarnings("WeakerAccess")
 public class Scene extends JComponent {
     // The swarm that this scene will draw
     Swarm swarm;

@@ -1,14 +1,13 @@
 import flocking.*;
 import flocking.behaviours.*;
 import javax.swing.*;
-import java.awt.event.*;
 
 /**
- * Created by Y3761870 on 12/03/2016.
+ *
  */
 public class JavaAssessment {
     // If 60fps is good enough for consoles it's good enough for me.
-    static final int framerate = 60;
+    private static final int framerate = 60;
 
     public static void main(String[] args) {
         // GUI Set-up, all fairly self-explanatory. Using GroupLayout as it is reasonably flexible when you know
@@ -18,7 +17,7 @@ public class JavaAssessment {
         frame.getContentPane().setLayout(layout);
         frame.setTitle("Flocking Simulator");
         frame.setSize(1024, 768);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
 
         // Swarm must be specified with the bounds of the area where agents can be spawned
