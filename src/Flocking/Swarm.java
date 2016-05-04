@@ -14,9 +14,9 @@ import java.awt.geom.Rectangle2D;
 public class Swarm extends ArrayList<Agent> {
     public List<Behaviour> behaviours = new ArrayList<Behaviour>();
     public int target_population = 0;
-    public long time_grain = 10;
-    public long last_updated;
-    public boolean wrap_offscreen = false;
+    private long last_updated;
+    long time_grain = 10;
+    boolean wrap_offscreen = false;
 
     public Scene scene;
 
@@ -30,27 +30,27 @@ public class Swarm extends ArrayList<Agent> {
         this.last_updated = System.nanoTime();
     }
 
-    void wrapAgentToBounds(Agent a, Rectangle2D bounds) {
+    private void wrapAgentToBounds(Agent a, Rectangle2D bounds) {
         while (a.position.x < bounds.getMinX()) a.position.x += bounds.getWidth();
         while (a.position.y < bounds.getMinY()) a.position.y += bounds.getHeight();
         while (a.position.x > bounds.getMaxX()) a.position.x -= bounds.getWidth();
         while (a.position.y > bounds.getMaxY()) a.position.y -= bounds.getHeight();
     }
 
-    public double getViewDistance() {
+    double getViewDistance() {
         return this.view_distance;
     }
 
-    public void setAllVelocity(double velocity) {
+    void setAllVelocity(double velocity) {
         this.velocity = velocity;
         this.stream().forEach(a -> a.velocity = velocity);
     }
 
-    public double getVelocity() {
+    double getVelocity() {
         return this.velocity;
     }
 
-    public void setViewDistance(double view_distance) {
+    void setViewDistance(double view_distance) {
         this.view_distance = view_distance;
         this.stream().forEach(a -> a.setViewDistance(view_distance));
     }
@@ -60,7 +60,7 @@ public class Swarm extends ArrayList<Agent> {
         repopulate();
     }
 
-    public void repopulate() {
+    private void repopulate() {
         int difference = this.size() - target_population;
 
         if (difference > 0) {

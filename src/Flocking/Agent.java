@@ -13,9 +13,9 @@ import java.util.*;
  */
 public class Agent {
     // (Radians) A turn has to be greater than this angle for the agent to move
-    final static double turn_threshold_angle = 0.1;
-    final static double max_angular_vel = 0.004;
-    final static double angular_accel = 0.00005;
+    private final static double turn_threshold_angle = 0.1;
+    private final static double max_angular_vel = 0.004;
+    private final static double angular_accel = 0.00005;
 
     // Storing the square of the view distance means visibility testing doesn't need to do a sqrt operation
     private double view_distance_sq = 22500.0;
@@ -30,11 +30,11 @@ public class Agent {
     public Point position = null;
     public double angle   = 0.0;
     double velocity       = 0.0;
-    double angular_vel    = 0.0;
+    private double angular_vel    = 0.0;
 
     // These are updated every time the update() method is called
     public double centre_of_mass_angle = 0.0;
-    public Point  centre_of_mass       = null;
+    Point         centre_of_mass       = null;
 
     Agent(Point position, double angle) {
         this.neighbours = new ArrayList<Agent>();
@@ -78,7 +78,7 @@ public class Agent {
      * Finds the centre of mass of visible neighbours to this agent.
      * @return Point of centre of mass of visible neighbours to this agent
      */
-    Point findCentreOfMass() {
+    private Point findCentreOfMass() {
         // If there are no neighbours, there's no centre of mass, so return null
         if (neighbours.size() == 0)
             return null;
@@ -102,12 +102,12 @@ public class Agent {
      * @return double containing the average angle
      */
     public double findAverageAngle() {
-        // If there's no neighbours just give the current angle
-        if (neighbours.size() == 0)
-            return this.angle;
-
-        // Otherwise take the average
-        return this.neighbours.stream().mapToDouble(a -> a.angle).average().getAsDouble();
+        // If there are neighbours, give the average
+        // Otherwise just give the current angle
+        return this.neighbours.stream()
+                .mapToDouble(a -> a.angle)
+                .average()
+                .orElse(this.angle);
     }
 
     /**
@@ -130,7 +130,7 @@ public class Agent {
      * from what a real-time simulation would give. It's best to keep it as short as possible
      * @param time_delta How far proportionally to update the agent since the last time
      */
-    public void update(long time_delta) {
+    void update(long time_delta) {
         // Update the centre of mass properties
         this.centre_of_mass = findCentreOfMass();
         this.centre_of_mass_angle = findCentreOfMassAngle();

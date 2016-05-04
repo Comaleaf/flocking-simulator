@@ -11,7 +11,7 @@ import javax.swing.event.*;
  * Created by Y3761870 on 29/04/2016.
  */
 public class SceneUI extends JPanel {
-    Scene scene;
+    private Scene scene;
 
     private JSlider slider_to_monitor = null;
 

@@ -14,19 +14,19 @@ public class Scene extends JComponent {
     Swarm swarm;
 
     // The zoom factor to draw at
-    public double zoom = 1.0;
+    double zoom = 1.0;
 
     // Some drawing options
     boolean draw_centre_of_mass = false;
     boolean draw_neighbours     = false;
     boolean draw_view_distance  = false;
 
-    public Scene(Swarm swarm) {
+    Scene(Swarm swarm) {
         super();
 
         this.swarm = swarm;
-        this.repaint();
-        this.revalidate();
+        repaint();
+        revalidate();
     }
 
     /**
@@ -34,14 +34,14 @@ public class Scene extends JComponent {
      * into account the zoom factor.
      * @return Rectangle2D containing offset and size of visible region
      */
-    public Rectangle2D getScaledVisibleRegion() {
+    Rectangle2D getScaledVisibleRegion() {
         Rectangle2D.Double bounds = new Rectangle2D.Double();
         // Essentially the 1/zooms are necessary
         bounds.setRect(
                 ((getWidth()/2.0)-(getWidth()*zoom/2.0)) * -1/zoom,
                 ((getHeight()/2.0)-(getHeight()*zoom/2.0)) * -1/zoom,
-                this.getWidth() * 1/zoom,
-                this.getHeight() * 1/zoom);
+                getWidth()/zoom,
+                getHeight()/zoom);
         return bounds;
     }
 

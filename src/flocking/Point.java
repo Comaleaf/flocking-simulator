@@ -8,10 +8,14 @@ import java.awt.geom.Point2D;
  * @author Y3761870
  */
 public class Point extends Point2D.Double {
-    public Point(double x, double y) {
+    Point(double x, double y) {
         super(x, y);
     }
 
+    /**
+     * Converts from an AWT Point to this Point class
+     * @param p AWT Point
+     */
     public Point(java.awt.Point p) {
         super(p.getX(), p.getY());
     }
@@ -45,7 +49,7 @@ public class Point extends Point2D.Double {
 
     /**
      * Divide the location of this point by a given divisor (useful for averages)
-     * @param divisor
+     * @param divisor Double to divide by
      */
     void divide(double divisor) {
         this.x /= divisor;

@@ -7,7 +7,7 @@ import flocking.*;
  * behaviours to use scaling factors.
  * @author Y3761870
  */
-public abstract class ScaledBehaviour implements Behaviour {
+abstract class ScaledBehaviour implements Behaviour {
     // The amount that the angle to turn to will be scaled by this
     private double factor = 0.0;
 
