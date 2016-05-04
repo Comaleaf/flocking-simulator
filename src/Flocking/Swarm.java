@@ -25,7 +25,7 @@ public class Swarm extends ArrayList<Agent> {
     public Scene scene;
 
     // Defaults
-    private double velocity = 0.12;
+    private double velocity      = 0.12;
     private double view_distance = 150.0;
 
     public Swarm() {

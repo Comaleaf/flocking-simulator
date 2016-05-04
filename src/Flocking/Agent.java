@@ -13,8 +13,8 @@ import java.util.*;
 public class Agent {
     // (Radians) A turn has to be greater than this angle for the agent to move
     private final static double turn_threshold_angle = 0.1;
-    private final static double max_angular_vel = 0.004;
-    private final static double angular_accel = 0.00005;
+    private final static double max_angular_vel      = 0.004;
+    private final static double angular_accel        = 0.00005;
 
     // Storing the square of the view distance means visibility testing doesn't need to do a sqrt operation
     private double view_distance_sq = 22500.0;
@@ -25,10 +25,10 @@ public class Agent {
     List<Behaviour> behaviours;
 
     // Current position/state of the angle in cartesian space
-    public Point position = null;
-    public double angle   = 0.0;
-    double velocity       = 0.0;
-    private double angular_vel    = 0.0;
+    public Point position      = null;
+    public double angle        = 0.0;
+    double velocity            = 0.0;
+    private double angular_vel = 0.0;
 
     // These are updated every time the update() method is called
     public double centre_of_mass_angle = 0.0;
