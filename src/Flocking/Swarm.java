@@ -86,6 +86,10 @@ public class Swarm extends ArrayList<Agent> {
 
         final Rectangle2D bounds = this.scene.getScaledVisibleRegion();
 
+        // Wrap the agents before determining neighbours otherwise the neighbours will get teleported when wrapped
+        if (wrap_offscreen)
+            parallelStream().forEach(a -> wrapAgentToBounds(a, bounds));
+
         // Computational complexity of updating the neighbours list is O(n^2) - this is pretty huge. With a large
         // number of agents it will take a long time to traverse the graph, regardless of optimisations to the local
         // loop. Parallelising essentially halves the time to completion with two cores (profiled).
@@ -95,9 +99,6 @@ public class Swarm extends ArrayList<Agent> {
                     .collect(Collectors.toList());
 
             agent.update(time_delta);
-
-            if (wrap_offscreen)
-                wrapAgentToBounds(agent, bounds);
         });
     }
 }
