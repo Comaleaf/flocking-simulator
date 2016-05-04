@@ -2,7 +2,6 @@ package flocking;
 
 import flocking.behaviours.Behaviour;
 
-import java.util.stream.Stream;
 import java.util.*;
 
 /**
@@ -19,7 +18,6 @@ public class Agent {
 
     // Storing the square of the view distance means visibility testing doesn't need to do a sqrt operation
     private double view_distance_sq = 22500.0;
-    private double view_distance = 150.0;
 
     // All the current neighbours (maintained by the swarm using the Agent.canSee method
     List<Agent> neighbours;
@@ -37,7 +35,7 @@ public class Agent {
     Point         centre_of_mass       = null;
 
     Agent(Point position, double angle) {
-        this.neighbours = new ArrayList<Agent>();
+        this.neighbours = new ArrayList<>();
         this.position = position;
         this.angle = angle;
     }
@@ -46,22 +44,12 @@ public class Agent {
     // See the description for setAllViewDistance(double)
 
     /**
-     * This needs an accessor because the property is 'managed' by the class for performance reasons. See
-     * description for `setAllViewDistance` for more information.
-     * @return Current view distance radius
-     */
-    double getViewDistance() {
-        return this.view_distance;
-    }
-
-    /**
      * The reason this mutator manages the view instead of the property being exposed like in other cases is
      * so that the object can keep its view_distance_sq property consistent  with the view_distance property.
      * This is needed to avoid having to do sqrt() operations when calculating agent visiblity.
      * @param view_distance New radius of Agent's vision
      */
     void setViewDistance(double view_distance) {
-        this.view_distance = view_distance;
         this.view_distance_sq = view_distance * view_distance;
     }
 
