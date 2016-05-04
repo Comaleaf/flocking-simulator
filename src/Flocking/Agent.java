@@ -43,11 +43,11 @@ public class Agent {
     }
 
     // This needs an accessor because the property is 'managed' by the class for performance reasons.
-    // See the description for setViewDistance(double)
+    // See the description for setAllViewDistance(double)
 
     /**
      * This needs an accessor because the property is 'managed' by the class for performance reasons. See
-     * description for `setViewDistance` for more information.
+     * description for `setAllViewDistance` for more information.
      * @return Current view distance radius
      */
     double getViewDistance() {

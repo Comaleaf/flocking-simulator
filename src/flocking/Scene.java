@@ -80,6 +80,8 @@ public class Scene extends JComponent {
             x = Math.cos(agent.angle) * 4.0 * this.zoom;
             g.setColor(Color.black);
 
+            // Experimented with using the draw(int, int, int, int) method, but it didn't seem
+            // to profile any faster than this
             g.draw(new Line2D.Double(p.x-x, p.y-y, p.x+x, p.y+y));
 
             // Drawing ovals seems to be really slow - I don't know why this is exactly. Turning off
@@ -95,6 +97,7 @@ public class Scene extends JComponent {
                 g.draw(view_distance);
             }
 
+            // Only draw centre of mass if there is one
             if (this.draw_centre_of_mass && agent.centre_of_mass != null) {
                 g.setColor(Color.cyan);
                 g.draw(new Line2D.Double(p, agent.centre_of_mass));

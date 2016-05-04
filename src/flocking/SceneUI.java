@@ -8,7 +8,7 @@ import java.awt.event.*;
 import javax.swing.event.*;
 
 /**
- *
+ * @author Y3761870
  */
 public class SceneUI extends JPanel {
     private Scene scene;
@@ -30,7 +30,7 @@ public class SceneUI extends JPanel {
         addCheckBox("Wrap off-screen agents", e -> this.scene.swarm.wrap_offscreen = e.getStateChange() == ItemEvent.SELECTED);
 
         addTitle("Agent Parameters");
-        addSlider("Sight",    1,  1000, (int) this.scene.swarm.getViewDistance(), e -> this.scene.swarm.setViewDistance(monitorSliderValue(e.getSource())) );
+        addSlider("Sight",    1,  1000, (int) this.scene.swarm.getViewDistance(), e -> this.scene.swarm.setAllViewDistance(monitorSliderValue(e.getSource())) );
         addSlider("Velocity", 1,  100,  (int) (this.scene.swarm.getVelocity() * 100.0), e -> this.scene.swarm.setAllVelocity(monitorSliderValue(e.getSource()) / 100.0) );
 
         addTitle("Drawing Options");
